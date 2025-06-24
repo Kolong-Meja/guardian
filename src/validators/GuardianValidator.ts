@@ -1,3 +1,11 @@
+import {
+  Decimal,
+  Float,
+  Integer,
+  Long,
+  UInteger,
+  ULong,
+} from "../generators/opaque-type.generator.ts";
 import type { IGuardianValidator } from "../interfaces/IGuardianValidator.ts";
 import type { Mixed } from "../types/value.type.ts";
 
@@ -45,14 +53,28 @@ class GuardianValidator implements IGuardianValidator {
     return typeof value === "object" && value !== null;
   }
 
-  isInteger(value: Mixed): boolean {
-    return typeof value === "number" && Number.isInteger(value);
+  isInteger(value: Mixed): value is Integer {
+    return value instanceof Integer;
   }
 
-  isFloat(value: Mixed): boolean {
-    return (
-      typeof value === "number" && Number.isFinite(value) && value % 1 !== 0
-    );
+  isUInteger(value: Mixed): value is UInteger {
+    return value instanceof UInteger;
+  }
+
+  isLong(value: Mixed): value is Long {
+    return value instanceof Long;
+  }
+
+  isULong(value: Mixed): value is ULong {
+    return value instanceof ULong;
+  }
+
+  isFloat(value: Mixed): value is Float {
+    return value instanceof Float;
+  }
+
+  isDecimal(value: Mixed): value is Decimal {
+    return value instanceof Decimal;
   }
 
   isPositive(value: Mixed): boolean {
@@ -87,6 +109,10 @@ class GuardianValidator implements IGuardianValidator {
         value !== null &&
         Object.keys(value).length === 0)
     );
+  }
+
+  isBlank(value: Mixed): boolean {
+    return typeof value === "string" && value === "" && value.indexOf(" ") >= 0;
   }
 
   isFunction(value: Mixed): boolean {

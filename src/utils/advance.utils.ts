@@ -26,3 +26,7 @@ export function getPrecisions(value: Mixed) {
 
   return p;
 }
+
+export function itHasDuplicates<S extends Array<Mixed>>(subjects: S) {
+  return new Set(subjects).size !== subjects.length;
+}
